@@ -19,6 +19,8 @@ export function CTASection({
         event_label: buttonText,
       });
     }
+    // TODO: Replace with client's actual Google Calendar booking link or Calendly URL
+    // Example: https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID
     window.open("https://calendar.google.com", "_blank");
   };
 

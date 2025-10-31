@@ -7,9 +7,11 @@ import { Calendar, ArrowRight } from "lucide-react";
 import type { BlogPost } from "@shared/schema";
 
 export default function Blog() {
-  const { data: posts, isLoading } = useQuery<BlogPost[]>({
+  const { data, isLoading } = useQuery<{ posts: BlogPost[]; total: number }>({
     queryKey: ["/api/blog"],
   });
+  
+  const posts = data?.posts;
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("it-IT", {

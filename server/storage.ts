@@ -17,7 +17,7 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   
-  getAllBlogPosts(): Promise<BlogPost[]>;
+  getAllBlogPosts(page?: number, pageSize?: number): Promise<{ posts: BlogPost[]; total: number }>;
   getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
   
   getVerifiedTestimonials(): Promise<Testimonial[]>;
@@ -42,11 +42,25 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async getAllBlogPosts(): Promise<BlogPost[]> {
-    return await db
-      .select()
-      .from(blogPosts)
-      .orderBy(desc(blogPosts.publishedAt));
+  async getAllBlogPosts(page: number = 1, pageSize: number = 10): Promise<{ posts: BlogPost[]; total: number }> {
+    const offset = (page - 1) * pageSize;
+    
+    const [postsResult, countResult] = await Promise.all([
+      db
+        .select()
+        .from(blogPosts)
+        .orderBy(desc(blogPosts.publishedAt))
+        .limit(pageSize)
+        .offset(offset),
+      db
+        .select({ count: db.$count(blogPosts) })
+        .from(blogPosts)
+    ]);
+    
+    return {
+      posts: postsResult,
+      total: countResult[0]?.count ?? 0
+    };
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {

@@ -4,6 +4,7 @@ export function GoogleAnalytics() {
   const gaId = import.meta.env.VITE_GA_ID;
 
   if (!gaId) {
+    console.log("[GoogleAnalytics] VITE_GA_ID not configured. Set environment variable to enable Google Analytics tracking.");
     return null;
   }
 

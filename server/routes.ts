@@ -5,8 +5,15 @@ import { storage } from "./storage";
 export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/blog", async (req, res) => {
     try {
-      const posts = await storage.getAllBlogPosts();
-      res.json(posts);
+      const page = parseInt(req.query.page as string) || 1;
+      const pageSize = parseInt(req.query.pageSize as string) || 10;
+      
+      if (page < 1 || pageSize < 1 || pageSize > 100) {
+        return res.status(400).json({ error: "Invalid pagination parameters" });
+      }
+      
+      const result = await storage.getAllBlogPosts(page, pageSize);
+      res.json(result);
     } catch (error) {
       console.error("Error fetching blog posts:", error);
       res.status(500).json({ error: "Failed to fetch blog posts" });
