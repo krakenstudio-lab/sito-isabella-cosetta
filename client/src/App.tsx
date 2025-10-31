@@ -4,11 +4,15 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { HelmetProvider } from "react-helmet-async";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Home from "@/pages/Home";
 import PavimentoPelvico from "@/pages/PavimentoPelvico";
 import DiastasiAddominale from "@/pages/DiastasiAddominale";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
+import FAQ from "@/pages/FAQ";
 import NotFound from "@/pages/NotFound";
 
 function Router() {
@@ -17,6 +21,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/pavimento-pelvico" component={PavimentoPelvico} />
       <Route path="/diastasi-addominale" component={DiastasiAddominale} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
+      <Route path="/faq" component={FAQ} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -26,6 +33,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
+        <GoogleAnalytics />
         <TooltipProvider>
           <div className="flex flex-col min-h-screen">
             <Header />

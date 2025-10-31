@@ -12,6 +12,16 @@ export function CTASection({
   description = "Prenota una consulenza personalizzata per iniziare il tuo percorso di benessere. Ti aspetto nel mio studio a Ferrara.",
   buttonText = "Richiedi un Appuntamento",
 }: CTASectionProps) {
+  const trackEvent = () => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'cta_click', {
+        event_category: 'engagement',
+        event_label: buttonText,
+      });
+    }
+    window.open("https://calendar.google.com", "_blank");
+  };
+
   return (
     <section className="py-20 bg-primary/5">
       <div className="container mx-auto px-6 lg:px-8">
@@ -25,7 +35,7 @@ export function CTASection({
           <div className="pt-4">
             <Button
               data-testid="button-cta-section"
-              onClick={() => window.open("https://calendar.google.com", "_blank")}
+              onClick={trackEvent}
               size="lg"
               variant="default"
               className="rounded-full px-8"

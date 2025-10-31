@@ -24,6 +24,8 @@ export function Header() {
     { href: "/", label: "Home" },
     { href: "/pavimento-pelvico", label: "Pavimento Pelvico" },
     { href: "/diastasi-addominale", label: "Diastasi Addominale" },
+    { href: "/blog", label: "Blog" },
+    { href: "/faq", label: "FAQ" },
   ];
 
   return (
