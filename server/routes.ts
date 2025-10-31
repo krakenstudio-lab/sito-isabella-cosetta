@@ -1,8 +1,7 @@
 import type { Express } from "express";
-import { createServer, type Server } from "http";
 import { storage } from "./storage";
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export function registerRoutes(app: Express): void {
   app.get("/api/blog", async (req, res) => {
     try {
       const page = parseInt(req.query.page as string) || 1;
@@ -45,8 +44,4 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to fetch testimonials" });
     }
   });
-
-  const httpServer = createServer(app);
-
-  return httpServer;
 }
